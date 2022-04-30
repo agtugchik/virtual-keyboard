@@ -1,14 +1,13 @@
 @import "reset";
 @import "normalize";
 
-body{
-  overflow: hidden;
-}
 .container {
 	margin: 0 auto;
 	width: 1000px;
 	.title {
 		text-align: center;
+    margin: 0;
+    padding: 20px 0;
 	}
 	.textarea {
 		margin: 0 auto;
