@@ -429,9 +429,13 @@ template {
   display: none;
 }
 
+body {
+  overflow: hidden;
+}
+
 .container {
   margin: 0 auto;
-  width: 500px;
+  width: 1000px;
 }
 
 .container .title {
@@ -440,20 +444,65 @@ template {
 
 .container .textarea {
   margin: 0 auto;
-  padding: 10px;
-  width: 500px;
+  padding: 5px;
+  width: 685px;
   height: 150px;
   border: solid 2px black;
   border-radius: 5px;
   resize: none;
+  display: block;
+  margin-bottom: 20px;
 }
 
 .container .keyboard {
   margin: 0 auto;
-  width: 500px;
-  height: 200px;
+  width: 685px;
+  height: 235px;
   border: solid 2px black;
   border-radius: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 5px;
+  gap: 5px;
+}
+
+.container .keyboard .key {
+  padding-top: 10px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border: solid 2px black;
+  border-radius: 5px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.container .keyboard .key:hover {
+  background: #c5c5c5;
+}
+
+.container .keyboard .key.active {
+  border-radius: 20px;
+  background: #c5c5c5;
+}
+
+.container .keyboard .Backspace,
+.container .keyboard .CapsLock,
+.container .keyboard .Enter,
+.container .keyboard .ShiftLeft,
+.container .keyboard .ShiftRight {
+  width: 85px;
+}
+
+.container .keyboard .Space {
+  width: 310px;
 }
 
 .container .description {
