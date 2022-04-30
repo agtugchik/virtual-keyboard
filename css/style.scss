@@ -1,2 +1,30 @@
 @import "reset";
 @import "normalize";
+
+.container {
+	margin: 0 auto;
+	width: 500px; 
+	.title {
+		text-align: center;
+	}
+	.textarea {
+		margin: 0 auto;
+    padding: 10px;
+		width: 500px;
+		height: 150px;
+    border: solid 2px black;
+		border-radius: 5px;
+    resize: none;
+	}
+	.keyboard {
+		margin: 0 auto;
+		width: 500px;
+		height: 200px;
+		border: solid 2px black;
+		border-radius: 5px;
+	}
+  .description {
+    text-align: center;
+    margin: 20px 0;
+  }
+}
