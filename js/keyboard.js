@@ -116,11 +116,25 @@ const keyboardListener = () => {
   });
 };
 
+const getLocalStorage = () => {
+  if (localStorage.getItem('languge')) language = localStorage.getItem('languge');
+  else language = 'Ru';
+};
+
+const setLocalStorage = () => {
+  const setLanguage = () => {
+    localStorage.setItem('languge', language);
+  };
+  window.addEventListener('beforeunload', setLanguage);
+};
+
 const init = () => {
+  getLocalStorage();
   createBasestructure();
   addKeys(keyboard);
   mouseListener(keyboard);
   keyboardListener();
+  setLocalStorage();
 };
 
 export default init;

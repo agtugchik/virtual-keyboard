@@ -2,30 +2,30 @@
 @import "normalize";
 
 .container {
-	margin: 0 auto;
-	width: 1000px;
-	.title {
-		text-align: center;
+  margin: 0 auto;
+  width: 1000px;
+  .title {
+    text-align: center;
     margin: 0;
     padding: 20px 0;
-	}
-	.textarea {
-		margin: 0 auto;
+  }
+  .textarea {
+    margin: 0 auto;
     padding: 5px;
-		width: 685px;
-		height: 150px;
+    width: 685px;
+    height: 150px;
     border: solid 2px black;
-		border-radius: 5px;
+    border-radius: 5px;
     resize: none;
     display: block;
     margin-bottom: 20px;
-	}
-	.keyboard {
-		margin: 0 auto;
-		width: 685px;
-		height: 235px;
-		border: solid 2px black;
-		border-radius: 5px;
+  }
+  .keyboard {
+    margin: 0 auto;
+    width: 685px;
+    height: 235px;
+    border: solid 2px black;
+    border-radius: 5px;
     display: flex;
     flex-wrap: wrap;
     padding: 5px;
@@ -58,7 +58,7 @@
     .Space {
       width: 310px;
     }
-	}
+  }
   .description {
     text-align: center;
     margin: 20px 0;
