@@ -1,4 +1,4 @@
-import { keyCodesToRu, keyCodesToEn } from './objects-and-arrays.js';
+import { keyCodesToRu, keyCodesToEn, letters } from './objects-and-arrays.js';
 
 const container = document.createElement('div');
 const name = document.createElement('h1');
@@ -51,6 +51,18 @@ const addKeys = (target) => {
   });
 };
 
+const capsLockHandler = () => {
+  const capsLock = document.querySelector('.CapsLock');
+  letters.forEach((element) => {
+    const handleElement = document.querySelector(`.${element}`);
+    if (capsLock.classList.contains('active')) {
+      handleElement.innerHTML = handleElement.innerHTML.toUpperCase();
+    } else {
+      handleElement.innerHTML = handleElement.innerHTML.toLowerCase();
+    }
+  });
+};
+
 const switchLanguages = () => {
   const condition = document.querySelector('.ShiftLeft').classList.contains('active')
     && document.querySelector('.AltLeft').classList.contains('active');
@@ -74,6 +86,7 @@ const switchLanguages = () => {
       key.innerHTML = `${language === 'En'
         ? keyCodesToEn[element] : keyCodesToRu[element]}`;
     }
+    capsLockHandler();
   });
 };
 
@@ -99,11 +112,14 @@ const keyboardListener = () => {
   document.addEventListener('keydown', (event) => {
     if (event.code === 'CapsLock') {
       document.querySelector(`.${event.code}`).classList.toggle('active');
+      capsLockHandler();
     } else {
       if (event.code === 'Tab'
         || event.code === 'AltLeft'
         || event.code === 'AltRight') event.preventDefault();
-      document.querySelector(`.${event.code}`).classList.add('active');
+      if (document.querySelector(`.${event.code}`)) {
+        document.querySelector(`.${event.code}`).classList.add('active');
+      }
     }
   });
   document.addEventListener('keyup', (event) => {
@@ -111,7 +127,9 @@ const keyboardListener = () => {
       && document.querySelector('.AltLeft').classList.contains('active');
     if (condition) switchLanguages();
     if (event.code !== 'CapsLock') {
-      document.querySelector(`.${event.code}`).classList.remove('active');
+      if (document.querySelector(`.${event.code}`)) {
+        document.querySelector(`.${event.code}`).classList.remove('active');
+      }
     }
   });
 };
