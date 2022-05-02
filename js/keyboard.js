@@ -6,7 +6,7 @@ const textarea = document.createElement('textarea');
 const keyboard = document.createElement('div');
 const description = document.createElement('p');
 const keys = Object.keys(keyCodesToEn);
-
+let capsLocker = false;
 let language = 'Ru';
 
 const createBasestructure = () => {
@@ -110,13 +110,14 @@ const mouseListener = (target) => {
 
 const keyboardListener = () => {
   document.addEventListener('keydown', (event) => {
-    if (event.code === 'CapsLock') {
+    if (event.code === 'CapsLock' && !capsLocker) {
+      capsLocker = true;
       document.querySelector(`.${event.code}`).classList.toggle('active');
       capsLockHandler();
-    } else {
-      if (event.code === 'Tab'
+    } else if (event.code !== 'CapsLock') {
+      if ((event.code === 'Tab'
         || event.code === 'AltLeft'
-        || event.code === 'AltRight') event.preventDefault();
+        || event.code === 'AltRight')) event.preventDefault();
       if (document.querySelector(`.${event.code}`)) {
         document.querySelector(`.${event.code}`).classList.add('active');
       }
@@ -126,10 +127,10 @@ const keyboardListener = () => {
     const condition = document.querySelector('.ShiftLeft').classList.contains('active')
       && document.querySelector('.AltLeft').classList.contains('active');
     if (condition) switchLanguages();
-    if (event.code !== 'CapsLock') {
-      if (document.querySelector(`.${event.code}`)) {
-        document.querySelector(`.${event.code}`).classList.remove('active');
-      }
+    if (event.code === 'CapsLock') {
+      capsLocker = false;
+    } else if (document.querySelector(`.${event.code}`)) {
+      document.querySelector(`.${event.code}`).classList.remove('active');
     }
   });
 };
