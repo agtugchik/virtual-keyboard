@@ -92,10 +92,11 @@ const switchLanguages = () => {
 
 const mouseListener = (target) => {
   target.addEventListener('mousedown', (event) => {
-    if (event.code === 'CapsLock') {
+    if (event.target.classList.contains('CapsLock')) {
       event.target.classList.toggle('active');
+      capsLockHandler();
     } else {
-      event.target.classList.toggle('active');
+      event.target.classList.add('active');
     }
   });
 
