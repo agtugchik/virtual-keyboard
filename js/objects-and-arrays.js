@@ -167,4 +167,30 @@ const letters = [
   'Comma',
   'Period',
 ];
-export { keyCodesToRu, keyCodesToEn, letters };
+
+const shiftArray = {
+  Backquote: ['~', 'Ё'],
+  Digit1: ['!', '!'],
+  Digit2: ['@', '"'],
+  Digit3: ['#', '№'],
+  Digit4: ['$', ';'],
+  Digit5: ['%', '%'],
+  Digit6: ['^', ':'],
+  Digit7: ['&', '?'],
+  Digit8: ['*', '*'],
+  Digit9: ['(', '('],
+  Digit0: [')', ')'],
+  Minus: ['_', '_'],
+  Equal: ['+', '+'],
+  Backslash: ['|', '/'],
+  BracketLeft: ['{', 'Х'],
+  BracketRight: ['}', 'Ъ'],
+  Semicolon: [':', 'Ж'],
+  Quote: ['"', 'Э'],
+  Comma: ['<', 'Б'],
+  Period: ['>', 'Ю'],
+  Slash: ['?', ','],
+};
+export {
+  keyCodesToRu, keyCodesToEn, letters, shiftArray,
+};

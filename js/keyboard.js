@@ -1,4 +1,6 @@
-import { keyCodesToRu, keyCodesToEn, letters } from './objects-and-arrays.js';
+import {
+  keyCodesToRu, keyCodesToEn, letters, shiftArray,
+} from './objects-and-arrays.js';
 
 const container = document.createElement('div');
 const name = document.createElement('h1');
@@ -65,22 +67,33 @@ const capsLockHandler = () => {
 };
 
 const shiftHandler = () => {
-  const shift = document.querySelector('.ShiftLeft');
+  const shiftLeft = document.querySelector('.ShiftLeft');
+  const shiftRight = document.querySelector('.ShiftRight');
   const alt = document.querySelector('.AltLeft');
   const symbol = document.querySelector('.KeyQ').innerHTML;
   const isLowerCase = symbol === symbol.toLowerCase();
-
-  console.log(symbol);
-  console.log(symbol.toLocaleLowerCase());
-  console.log(isLowerCase);
+  const shiftKeys = Object.keys(shiftArray);
 
   letters.forEach((element) => {
     const handleElement = document.querySelector(`.${element}`);
-    if (shift.classList.contains('active') && isLowerCase && !alt.classList.contains('active')) {
+    if ((shiftLeft.classList.contains('active') || shiftRight.classList.contains('active'))
+      && isLowerCase && !alt.classList.contains('active')) {
       handleElement.innerHTML = handleElement.innerHTML.toUpperCase();
-    } else if (shift.classList.contains('active') && !isLowerCase
-      && !alt.classList.contains('active')) {
+    } else if ((shiftLeft.classList.contains('active') || shiftRight.classList.contains('active'))
+      && !isLowerCase && !alt.classList.contains('active')) {
       handleElement.innerHTML = handleElement.innerHTML.toLowerCase();
+    }
+  });
+  shiftKeys.forEach((element) => {
+    const key = document.querySelector(`.${element}`);
+    if (language === 'En') {
+      if (shiftLeft.classList.contains('active') || shiftRight.classList.contains('active')) {
+        key.innerHTML = `${shiftArray[element][0]}`;
+      }
+    } else if (language === 'Ru') {
+      if (shiftLeft.classList.contains('active') || shiftRight.classList.contains('active')) {
+        key.innerHTML = `${shiftArray[element][1]}`;
+      }
     }
   });
 };
