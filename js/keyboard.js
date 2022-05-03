@@ -28,7 +28,7 @@ const createBasestructure = () => {
 
   description.classList.add('description');
   description.innerHTML = 'The keyboard was created in the windows operating system'
-    + '<br>Keys to switch layout: left shift + left alt';
+    + '<br>Keys to switch layout: left ctrl + left alt';
   container.append(description);
 };
 
@@ -79,7 +79,7 @@ const shiftHandler = () => {
     if ((shiftLeft.classList.contains('active') || shiftRight.classList.contains('active'))
       && isLowerCase && !alt.classList.contains('active')) {
       handleElement.innerHTML = handleElement.innerHTML.toUpperCase();
-    } else if ((shiftLeft.classList.contains('active') || shiftRight.classList.contains('active'))
+    } else if ((!shiftLeft.classList.contains('active') || !shiftRight.classList.contains('active'))
       && !isLowerCase && !alt.classList.contains('active')) {
       handleElement.innerHTML = handleElement.innerHTML.toLowerCase();
     }
@@ -89,17 +89,27 @@ const shiftHandler = () => {
     if (language === 'En') {
       if (shiftLeft.classList.contains('active') || shiftRight.classList.contains('active')) {
         key.innerHTML = `${shiftArray[element][0]}`;
+      } else if (!shiftLeft.classList.contains('active') || !shiftRight.classList.contains('active')) {
+        key.innerHTML = `${shiftArray[element][2]}`;
       }
     } else if (language === 'Ru') {
       if (shiftLeft.classList.contains('active') || shiftRight.classList.contains('active')) {
         key.innerHTML = `${shiftArray[element][1]}`;
+      } else if (!shiftLeft.classList.contains('active') || !shiftRight.classList.contains('active')) {
+        const symboLForRu = document.querySelector('.KeyQ').innerHTML;
+        const isLowerCaseForRu = symboLForRu === symboLForRu.toLowerCase();
+        if (isLowerCaseForRu) {
+          key.innerHTML = `${shiftArray[element][3]}`.toLowerCase();
+        } else {
+          key.innerHTML = `${shiftArray[element][3]}`.toUpperCase();
+        }
       }
     }
   });
 };
 
 const switchLanguages = () => {
-  const condition = document.querySelector('.ShiftLeft').classList.contains('active')
+  const condition = document.querySelector('.ControlLeft').classList.contains('active')
     && document.querySelector('.AltLeft').classList.contains('active');
   if (condition) {
     if (language === 'En') language = 'Ru';
@@ -138,11 +148,11 @@ const mouseListener = (target) => {
 
   document.addEventListener('mouseup', () => {
     keys.forEach((element) => {
-      shiftHandler();
       if (element !== 'CapsLock') {
         document.querySelector(`.${element}`).classList.remove('active');
       }
     });
+    shiftHandler();
   });
 };
 
@@ -166,17 +176,17 @@ const keyboardListener = () => {
     }
   });
   document.addEventListener('keyup', (event) => {
-    const condition = document.querySelector('.ShiftLeft').classList.contains('active')
+    const condition = document.querySelector('.ControlLeft').classList.contains('active')
       && document.querySelector('.AltLeft').classList.contains('active');
     if (condition) switchLanguages();
     if (event.code === 'CapsLock') {
       capsLocker = false;
     } else if (document.querySelector(`.${event.code}`)) {
+      document.querySelector(`.${event.code}`).classList.remove('active');
       if (shiftLocker) {
         shiftLocker = false;
         shiftHandler();
       }
-      document.querySelector(`.${event.code}`).classList.remove('active');
     }
   });
 };
