@@ -7,6 +7,7 @@ const keyboard = document.createElement('div');
 const description = document.createElement('p');
 const keys = Object.keys(keyCodesToEn);
 let capsLocker = false;
+let shiftLocker = false;
 let language = 'Ru';
 
 const createBasestructure = () => {
@@ -63,6 +64,27 @@ const capsLockHandler = () => {
   });
 };
 
+const shiftHandler = () => {
+  const shift = document.querySelector('.ShiftLeft');
+  const alt = document.querySelector('.AltLeft');
+  const symbol = document.querySelector('.KeyQ').innerHTML;
+  const isLowerCase = symbol === symbol.toLowerCase();
+
+  console.log(symbol);
+  console.log(symbol.toLocaleLowerCase());
+  console.log(isLowerCase);
+
+  letters.forEach((element) => {
+    const handleElement = document.querySelector(`.${element}`);
+    if (shift.classList.contains('active') && isLowerCase && !alt.classList.contains('active')) {
+      handleElement.innerHTML = handleElement.innerHTML.toUpperCase();
+    } else if (shift.classList.contains('active') && !isLowerCase
+      && !alt.classList.contains('active')) {
+      handleElement.innerHTML = handleElement.innerHTML.toLowerCase();
+    }
+  });
+};
+
 const switchLanguages = () => {
   const condition = document.querySelector('.ShiftLeft').classList.contains('active')
     && document.querySelector('.AltLeft').classList.contains('active');
@@ -97,6 +119,7 @@ const mouseListener = (target) => {
       capsLockHandler();
     } else {
       event.target.classList.add('active');
+      shiftHandler();
     }
   });
 
@@ -104,6 +127,7 @@ const mouseListener = (target) => {
     keys.forEach((element) => {
       if (element !== 'CapsLock') {
         document.querySelector(`.${element}`).classList.remove('active');
+        shiftHandler();
       }
     });
   });
@@ -121,6 +145,10 @@ const keyboardListener = () => {
         || event.code === 'AltRight')) event.preventDefault();
       if (document.querySelector(`.${event.code}`)) {
         document.querySelector(`.${event.code}`).classList.add('active');
+        if (!shiftLocker) {
+          shiftLocker = true;
+          shiftHandler();
+        }
       }
     }
   });
@@ -131,6 +159,10 @@ const keyboardListener = () => {
     if (event.code === 'CapsLock') {
       capsLocker = false;
     } else if (document.querySelector(`.${event.code}`)) {
+      if (shiftLocker) {
+        shiftLocker = false;
+        shiftHandler();
+      }
       document.querySelector(`.${event.code}`).classList.remove('active');
     }
   });
