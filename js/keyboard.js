@@ -125,9 +125,9 @@ const mouseListener = (target) => {
 
   document.addEventListener('mouseup', () => {
     keys.forEach((element) => {
+      shiftHandler();
       if (element !== 'CapsLock') {
         document.querySelector(`.${element}`).classList.remove('active');
-        shiftHandler();
       }
     });
   });
