@@ -9,14 +9,14 @@
   },
   "extends": "airbnb-base",
   "rules": {
-    // "max-len": [
-    //   "error",
-    //   100,
-    //   2,
-    //   {
-    //     "ignoreUrls": true
-    //   }
-    // ],
+    "max-len": [
+      "error",
+      100,
+      2,
+      {
+        "ignoreUrls": true
+      }
+    ],
     "no-console": [
       "error",
       {

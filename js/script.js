@@ -1,3 +1,3 @@
-import init from './keyboard.js';
+import keyboardFunction from './keyboard.js';
 
-init();
+keyboardFunction();
