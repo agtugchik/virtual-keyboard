@@ -3,7 +3,7 @@ import { keyProperties, unhandleElements } from './keyboard-objects.js';
 const keys = Object.keys(keyProperties);
 let language = 'En';
 let capsLocker = false;
-// let shiftLocker = false;
+let shiftLocker = false;
 
 const createBaseStructure = () => {
   const container = document.createElement('div');
@@ -58,6 +58,48 @@ const capsLockHandler = () => {
   });
 };
 
+const shiftHandler = () => {
+  const condition = document.querySelector('.ShiftLeft').classList.contains('active')
+    || document.querySelector('.ShiftRight').classList.contains('active');
+  const capsLock = document.querySelector('.CapsLock');
+
+  const noneCapsLockToUpper = () => {
+    keys.forEach((element) => {
+      if (!unhandleElements.includes(element)) {
+        const key = document.querySelector(`.${element}`);
+        if (!capsLock.classList.contains('active')) {
+          key.innerHTML = key.innerHTML.toUpperCase();
+        }
+      }
+    });
+  };
+
+  const capsLockToUpper = () => {
+    keys.forEach((element) => {
+      if (!unhandleElements.includes(element)) {
+        const key = document.querySelector(`.${element}`);
+        if (capsLock.classList.contains('active')) {
+          key.innerHTML = key.innerHTML.toUpperCase();
+        }
+      }
+    });
+  };
+
+  if (condition && language === 'En') {
+    switchSymbols(2);
+    noneCapsLockToUpper();
+  } else if (!condition && language === 'En') {
+    switchSymbols(0);
+    capsLockToUpper();
+  } else if (condition && language === 'Ru') {
+    switchSymbols(3);
+    noneCapsLockToUpper();
+  } else if (!condition && language === 'Ru') {
+    switchSymbols(1);
+    capsLockToUpper();
+  }
+};
+
 const switchLanguages = () => {
   const condition = document.querySelector('.ControlLeft').classList.contains('active')
     && document.querySelector('.AltLeft').classList.contains('active');
@@ -94,6 +136,10 @@ const keyboardListener = () => {
         capsLocker = true;
         document.querySelector(`.${event.code}`).classList.toggle('active');
         capsLockHandler();
+      } else if ((event.code === 'ShiftRight' || event.code === 'ShiftLeft') && !shiftLocker) {
+        shiftLocker = true;
+        document.querySelector(`.${event.code}`).classList.add('active');
+        shiftHandler();
       } else {
         if ((event.code === 'Tab'
           || event.code === 'AltLeft'
@@ -109,6 +155,10 @@ const keyboardListener = () => {
     if (document.querySelector(`.${event.code}`)) {
       if (event.code === 'CapsLock') {
         capsLocker = false;
+      } else if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+        shiftLocker = false;
+        document.querySelector(`.${event.code}`).classList.remove('active');
+        shiftHandler();
       } else {
         document.querySelector(`.${event.code}`).classList.remove('active');
       }
@@ -127,48 +177,6 @@ const setLocalStorage = () => {
   };
   window.addEventListener('beforeunload', setLanguage);
 };
-
-// const shiftHandler = () => {
-//   const shiftLeft = document.querySelector('.ShiftLeft');
-//   const shiftRight = document.querySelector('.ShiftRight');
-//   const alt = document.querySelector('.AltLeft');
-//   const symbol = document.querySelector('.KeyQ').innerHTML;
-//   const isLowerCase = symbol === symbol.toLowerCase();
-//   const shiftKeys = Object.keys(shiftArray);
-
-//   letters.forEach((element) => {
-//     const handleElement = document.querySelector(`.${element}`);
-//     if ((shiftLeft.classList.contains('active') || shiftRight.classList.contains('active'))
-//       && isLowerCase && !alt.classList.contains('active')) {
-//       handleElement.innerHTML = handleElement.innerHTML.toUpperCase();
-//     } else if ((!shiftLeft.classList.contains('active') || !shiftRight.classList.contains('active'))
-//       && !isLowerCase && !alt.classList.contains('active')) {
-//       handleElement.innerHTML = handleElement.innerHTML.toLowerCase();
-//     }
-//   });
-//   shiftKeys.forEach((element) => {
-//     const key = document.querySelector(`.${element}`);
-//     if (language === 'En') {
-//       if (shiftLeft.classList.contains('active') || shiftRight.classList.contains('active')) {
-//         key.innerHTML = `${shiftArray[element][0]}`;
-//       } else if (!shiftLeft.classList.contains('active') || !shiftRight.classList.contains('active')) {
-//         key.innerHTML = `${shiftArray[element][2]}`;
-//       }
-//     } else if (language === 'Ru') {
-//       if (shiftLeft.classList.contains('active') || shiftRight.classList.contains('active')) {
-//         key.innerHTML = `${shiftArray[element][1]}`;
-//       } else if (!shiftLeft.classList.contains('active') || !shiftRight.classList.contains('active')) {
-//         const symboLForRu = document.querySelector('.KeyQ').innerHTML;
-//         const isLowerCaseForRu = symboLForRu === symboLForRu.toLowerCase();
-//         if (isLowerCaseForRu) {
-//           key.innerHTML = `${shiftArray[element][3]}`.toLowerCase();
-//         } else {
-//           key.innerHTML = `${shiftArray[element][3]}`.toUpperCase();
-//         }
-//       }
-//     }
-//   });
-// };
 
 const keyboardFunction = () => {
   getLocalStorage();
