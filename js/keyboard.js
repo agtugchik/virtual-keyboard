@@ -118,13 +118,27 @@ const mouseListener = () => {
     if (event.target.classList.contains('CapsLock')) {
       event.target.classList.toggle('active');
       capsLockHandler();
+    } else if (event.target.classList.contains('ShiftLeft')
+      || event.target.classList.contains('ShiftRight')) {
+      event.target.classList.add('active');
+      shiftHandler();
     } else {
       event.target.classList.add('active');
     }
   });
   document.addEventListener('mouseup', () => {
+    if (document.querySelector('.ShiftLeft').classList.contains('active')) {
+      document.querySelector('.ShiftLeft').classList.remove('active');
+      shiftHandler();
+    }
+    if (document.querySelector('.ShiftRight').classList.contains('active')) {
+      document.querySelector('.ShiftRight').classList.remove('active');
+      shiftHandler();
+    }
     keys.forEach((element) => {
-      if (element !== 'CapsLock') document.querySelector(`.${element}`).classList.remove('active');
+      if (element !== 'CapsLock' && element !== 'ShiftRight' && element !== 'ShiftLeft') {
+        document.querySelector(`.${element}`).classList.remove('active');
+      }
     });
   });
 };
