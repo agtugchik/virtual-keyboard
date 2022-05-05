@@ -113,9 +113,52 @@ const switchLanguages = () => {
   }
   capsLockHandler();
 };
+const textareaMouseListener = (event) => {
+  const textarea = document.querySelector('textarea');
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  if (event.target.classList[0] === 'Backspace') {
+    const textareaText = textarea.value.substring(0, start > 0 ? start - 1 : start)
+      + textarea.value.substring(end);
+    textarea.value = textareaText;
+    textarea.focus();
+    textarea.selectionEnd = start > 0 ? end - 1 : end;
+  }
+  if (event.target.classList[0] === 'Delete') {
+    const textareaText = textarea.value.substring(0, start) + textarea.value.substring(end + 1);
+    textarea.value = textareaText;
+    textarea.focus();
+    textarea.selectionEnd = end;
+  }
+  if (event.target.classList[0] === 'Enter') {
+    const enterSymbol = '\n';
+    const textareaText = textarea.value.substring(0, start)
+      + enterSymbol + textarea.value.substring(end);
+    textarea.value = textareaText;
+    textarea.focus();
+    textarea.selectionEnd = end + 1;
+  }
+  if (event.target.classList[0] === 'Tab') {
+    const tabSymbol = '\t';
+    const textareaText = textarea.value.substring(0, start)
+      + tabSymbol + textarea.value.substring(end);
+    textarea.value = textareaText;
+    textarea.focus();
+    textarea.selectionEnd = end + 1;
+  }
+  if (keys.includes(event.target.classList[0])
+    && !unhandleElements.includes(event.target.classList[0])) {
+    const textareaText = textarea.value.substring(0, start)
+      + event.target.textContent + textarea.value.substring(end);
+    textarea.value = textareaText;
+    textarea.focus();
+    textarea.selectionEnd = (start === end) ? (end + 1) : end;
+  }
+};
 
 const mouseListener = () => {
   document.querySelector('.keyboard').addEventListener('mousedown', (event) => {
+    textareaMouseListener(event);
     if (event.target.classList.contains('CapsLock')) {
       event.target.classList.toggle('active');
       capsLockHandler();
