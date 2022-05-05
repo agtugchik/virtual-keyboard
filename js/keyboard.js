@@ -46,13 +46,15 @@ const switchSymbols = (langIndex) => {
 
 const capsLockHandler = () => {
   const capsLock = document.querySelector('.CapsLock');
+  const shifts = document.querySelector('.ShiftLeft').classList.contains('active')
+    || document.querySelector('.ShiftRight').classList.contains('active');
 
   keys.forEach((element) => {
     if (!unhandleElements.includes(element)) {
       const key = document.querySelector(`.${element}`);
       if (capsLock.classList.contains('active')) {
         key.innerHTML = key.innerHTML.toUpperCase();
-      } else {
+      } else if (!shifts) {
         key.innerHTML = key.innerHTML.toLowerCase();
       }
     }
@@ -113,6 +115,7 @@ const switchLanguages = () => {
   }
   capsLockHandler();
 };
+
 const textareaMouseListener = (event) => {
   const textarea = document.querySelector('textarea');
   const start = textarea.selectionStart;
@@ -156,6 +159,51 @@ const textareaMouseListener = (event) => {
   }
 };
 
+const textareaKeyboardListener = (event) => {
+  const textarea = document.querySelector('textarea');
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const target = document.querySelector(`.${event.code}`);
+  event.preventDefault();
+  if (event.code === 'Backspace') {
+    const textareaText = textarea.value.substring(0, start > 0 ? start - 1 : start)
+      + textarea.value.substring(end);
+    textarea.value = textareaText;
+    textarea.focus();
+    textarea.selectionEnd = start > 0 ? end - 1 : end;
+  }
+  if (event.code === 'Delete') {
+    const textareaText = textarea.value.substring(0, start) + textarea.value.substring(end + 1);
+    textarea.value = textareaText;
+    textarea.focus();
+    textarea.selectionEnd = end;
+  }
+  if (event.code === 'Enter') {
+    const enterSymbol = '\n';
+    const textareaText = textarea.value.substring(0, start)
+      + enterSymbol + textarea.value.substring(end);
+    textarea.value = textareaText;
+    textarea.focus();
+    textarea.selectionEnd = end + 1;
+  }
+  if (event.code === 'Tab') {
+    const tabSymbol = '\t';
+    const textareaText = textarea.value.substring(0, start)
+      + tabSymbol + textarea.value.substring(end);
+    textarea.value = textareaText;
+    textarea.focus();
+    textarea.selectionEnd = end + 1;
+  }
+  if (keys.includes(event.code)
+    && !unhandleElements.includes(event.code)) {
+    const textareaText = textarea.value.substring(0, start)
+      + target.textContent + textarea.value.substring(end);
+    textarea.value = textareaText;
+    textarea.focus();
+    textarea.selectionEnd = (start === end) ? (end + 1) : end;
+  }
+};
+
 const mouseListener = () => {
   document.querySelector('.keyboard').addEventListener('mousedown', (event) => {
     textareaMouseListener(event);
@@ -189,6 +237,7 @@ const mouseListener = () => {
 
 const keyboardListener = () => {
   document.addEventListener('keydown', (event) => {
+    textareaKeyboardListener(event);
     if (document.querySelector(`.${event.code}`)) {
       if (event.code === 'CapsLock' && !capsLocker) {
         capsLocker = true;
