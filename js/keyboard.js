@@ -127,11 +127,11 @@ const mouseListener = () => {
     }
   });
   document.addEventListener('mouseup', () => {
-    if (document.querySelector('.ShiftLeft').classList.contains('active')) {
+    if (document.querySelector('.ShiftLeft').classList.contains('active') && !shiftLocker) {
       document.querySelector('.ShiftLeft').classList.remove('active');
       shiftHandler();
     }
-    if (document.querySelector('.ShiftRight').classList.contains('active')) {
+    if (document.querySelector('.ShiftRight').classList.contains('active') && !shiftLocker) {
       document.querySelector('.ShiftRight').classList.remove('active');
       shiftHandler();
     }
