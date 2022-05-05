@@ -1,4 +1,4 @@
-class keyboardKeys {
+class KeyboardKeys {
   constructor() {
     this.Backquote = ['`', 'ё', '~', 'ё'];
     this.Digit1 = ['1', '1', '!', '!'];
@@ -81,4 +81,4 @@ const unhandleElements = [
   'Delete',
   'Backspace',
 ];
-export { keyboardKeys, unhandleElements };
+export { KeyboardKeys, unhandleElements };

@@ -1,6 +1,6 @@
-import { keyboardKeys, unhandleElements } from './keyboard-elements.js';
+import { KeyboardKeys, unhandleElements } from './keyboard-elements.js';
 
-const keyProperties = new keyboardKeys;
+const keyProperties = new KeyboardKeys();
 const keys = Object.keys(keyProperties);
 let language = 'En';
 let capsLocker = false;
