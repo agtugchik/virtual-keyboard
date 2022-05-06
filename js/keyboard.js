@@ -210,11 +210,14 @@ const mouseListener = () => {
     if (event.target.classList.contains('CapsLock')) {
       event.target.classList.toggle('active');
       capsLockHandler();
-    } else if (event.target.classList.contains('ShiftLeft')
-      || event.target.classList.contains('ShiftRight')) {
+    } else if (event.target.classList.contains('ShiftLeft') && !shiftLocker) {
       event.target.classList.add('active');
       shiftHandler();
-    } else {
+    } else if (event.target.classList.contains('ShiftRight') && !shiftLocker) {
+      event.target.classList.add('active');
+      shiftHandler();
+    } else if (!event.target.classList.contains('ShiftRight')
+      && !event.target.classList.contains('ShiftLeft')) {
       event.target.classList.add('active');
     }
   });
