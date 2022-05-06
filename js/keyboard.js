@@ -44,23 +44,6 @@ const switchSymbols = (langIndex) => {
   });
 };
 
-const capsLockHandler = () => {
-  const capsLock = document.querySelector('.CapsLock');
-  const shifts = document.querySelector('.ShiftLeft').classList.contains('active')
-    || document.querySelector('.ShiftRight').classList.contains('active');
-
-  keys.forEach((element) => {
-    if (!unhandleElements.includes(element)) {
-      const key = document.querySelector(`.${element}`);
-      if (capsLock.classList.contains('active')) {
-        key.innerHTML = key.innerHTML.toUpperCase();
-      } else if (!shifts) {
-        key.innerHTML = key.innerHTML.toLowerCase();
-      }
-    }
-  });
-};
-
 const shiftHandler = () => {
   const condition = document.querySelector('.ShiftLeft').classList.contains('active')
     || document.querySelector('.ShiftRight').classList.contains('active');
@@ -103,6 +86,23 @@ const shiftHandler = () => {
   }
 };
 
+const capsLockHandler = () => {
+  const capsLock = document.querySelector('.CapsLock');
+  const shifts = document.querySelector('.ShiftLeft').classList.contains('active')
+    || document.querySelector('.ShiftRight').classList.contains('active');
+
+  keys.forEach((element) => {
+    if (!unhandleElements.includes(element)) {
+      const key = document.querySelector(`.${element}`);
+      if (capsLock.classList.contains('active')) {
+        key.innerHTML = key.innerHTML.toUpperCase();
+      } else if (!shifts) {
+        key.innerHTML = key.innerHTML.toLowerCase();
+      }
+    }
+  });
+  shiftHandler();
+};
 const switchLanguages = () => {
   const condition = document.querySelector('.ControlLeft').classList.contains('active')
     && document.querySelector('.AltLeft').classList.contains('active');
@@ -264,7 +264,8 @@ const keyboardListener = () => {
         capsLocker = false;
       } else if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
         shiftLocker = false;
-        document.querySelector(`.${event.code}`).classList.remove('active');
+        document.querySelector('.ShiftRight').classList.remove('active');
+        document.querySelector('.ShiftLeft').classList.remove('active');
         shiftHandler();
       } else {
         document.querySelector(`.${event.code}`).classList.remove('active');
