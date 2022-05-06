@@ -243,16 +243,15 @@ const keyboardListener = () => {
         capsLocker = true;
         document.querySelector(`.${event.code}`).classList.toggle('active');
         capsLockHandler();
-      } else if ((event.code === 'ShiftRight' || event.code === 'ShiftLeft') && !shiftLocker) {
+      } else if (event.code === 'ShiftLeft' && !shiftLocker) {
         shiftLocker = true;
         document.querySelector(`.${event.code}`).classList.add('active');
         shiftHandler();
-      } else {
-        if ((event.code === 'Tab'
-          || event.code === 'AltLeft'
-          || event.code === 'AltRight')) {
-          event.preventDefault();
-        }
+      } else if (event.code === 'ShiftRight' && !shiftLocker) {
+        shiftLocker = true;
+        document.querySelector(`.${event.code}`).classList.add('active');
+        shiftHandler();
+      } else if (event.code !== 'ShiftLeft' && event.code !== 'ShiftRight') {
         document.querySelector(`.${event.code}`).classList.add('active');
       }
     }
